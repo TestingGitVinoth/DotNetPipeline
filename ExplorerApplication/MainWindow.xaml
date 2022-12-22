@@ -1,0 +1,27 @@
+﻿<Window x:Class="ExplorerApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExplorerApplication"
+        
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+
+    <Grid>
+        <ListView Margin="186,0,248,49" x:Name="FileList"/>
+        <TreeView Name="TreeView" Margin="0,0,611,49" RenderTransformOrigin="0.751,0.49">
+            <TreeView.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TreeView.RenderTransform>
+        </TreeView>
+        
+
+    </Grid>
+</Window>
