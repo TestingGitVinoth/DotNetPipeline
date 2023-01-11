@@ -1,0 +1,62 @@
+name: Secret Value found!
+on:
+  push:
+  public:
+jobs:
+  scan:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+     - name: Checkout
+       uses: actions/checkout@v3
+    # - name: Create a new folder
+       #run: New-Item -ItemType Directory -Force -Path /home/runner/work/TestPublicProject/TestPublicProject/software
+       #shell: pwsh
+     - name: Install the gitleaks
+       run: wget https://github.com/zricethezav/gitleaks/releases/download/v8.15.2/gitleaks_8.15.2_linux_x64.tar.gz
+       shell: pwsh
+     - name: Get the dir
+       run: |
+        ls
+        #mv gitleaks_8.15.2_linux_x64.tar.gz gitleaks
+        #sudo chmod +x gitleaks
+        #sudo mv gitleaks /usr/bin/w:
+     - name: Extract the tar file
+       run: tar xzvf gitleaks_8.15.2_linux_x64.tar.gz
+     - name: Get the dir
+       run: |
+         dir
+     - name: Generate the report
+       id: gitleaks
+       run: /home/runner/work/TestPublicProject/TestPublicProject/gitleaks detect -s /home/runner/work/TestPublicProject/TestPublicProject -f json -r /home/runner/work/TestPublicProject/TestPublicProject/leaksreport.json
+       working-directory: /home/runner/work/TestPublicProject/TestPublicProject
+       shell: bash
+       continue-on-error: true 
+     - name: Setup NuGet.exe
+       uses: nuget/setup-nuget@v1
+       with:
+          nuget-version: latest
+     - name: Install the packages
+       run: nuget install "Syncfusion.Send.Mail" -source "https://nexus.syncfusion.com/repository/nuget-hosted/"
+     - name: Get the dir
+       run: |
+         dir /home/runner/work/TestPublicProject/TestPublicProject/Syncfusion.Send.Mail.1.0.0/lib/net472
+     - name: Check on gitleaks step failures
+       if: steps.gitleaks.outcome != 'success'
+       run: |
+          echo "Leaks found"
+          /home/runner/work/TestPublicProject/TestPublicProject/Syncfusion.Send.Mail.1.0.0/lib/net472/SendMail.exe "citeam@syncfusion.com" "$env:GITHUB_REF_NAME" ${{ secrets.NETWORKCREDENTIALS }} ${{ secrets.NETWORKKEY }} 
+          exit 1
+     #- name: else 
+       #run: |
+         # echo "No leaks found"    
+     #- name: Check file existence
+       #id: check_files
+       #uses: andstor/file-existence-action@v1
+      # with:
+         #files: "D:/leaksreport.json"
+     #- name: File exists
+     #  if: steps.check_files.outputs.files_exists == 'true'
+      # run: |
+        
+         
