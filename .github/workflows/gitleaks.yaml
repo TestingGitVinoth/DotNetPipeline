@@ -36,3 +36,4 @@ jobs:
            dir $GITHUB_WORKSPACE/Syncfusion.Email.1.0.0/lib/netcoreapp3.1
            dotnet $GITHUB_WORKSPACE/Syncfusion.Email.1.0.0/lib/netcoreapp3.1/Email.dll "citeam@syncfusion.com" "$GITHUB_REF_NAME" ${{ secrets.NETWORKCREDENTIALS }} ${{ secrets.NETWORKKEY }} "$GITHUB_WORKSPACE"
            exit 1
+                ####added
